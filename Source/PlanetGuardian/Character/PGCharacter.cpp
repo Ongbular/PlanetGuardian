@@ -3,13 +3,20 @@
 
 #include "PGCharacter.h"
 #include "PGCharacterInitializerComponent.h"
+#include "PGCharacterMovementComponent.h"
 #include "Camera/CameraComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 
-APGCharacter::APGCharacter()
+APGCharacter::APGCharacter(const FObjectInitializer& ObjectInitializer)
+	: Super(ObjectInitializer.SetDefaultSubobjectClass<UPGCharacterMovementComponent>(CharacterMovementComponentName))
 {
 	PrimaryActorTick.bCanEverTick = true;
 
+	bUseControllerRotationPitch = false;
+	bUseControllerRotationYaw = false;
+	bUseControllerRotationRoll = false;
+	
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
 	CameraBoom->SetupAttachment(RootComponent);
 	CameraBoom->bUsePawnControlRotation = true;
@@ -19,6 +26,8 @@ APGCharacter::APGCharacter()
 	FollowCamera->bUsePawnControlRotation = false;
 
 	Initializer = CreateDefaultSubobject<UPGCharacterInitializerComponent>(TEXT("Initializer"));
+
+	GetCharacterMovement()->bOrientRotationToMovement = true;
 }
 
 void APGCharacter::BeginPlay()

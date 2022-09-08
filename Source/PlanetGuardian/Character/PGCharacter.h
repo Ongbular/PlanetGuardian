@@ -20,7 +20,7 @@ class PLANETGUARDIAN_API APGCharacter : public ACharacter
 	GENERATED_BODY()
 	
 public:
-	APGCharacter();
+	APGCharacter(const FObjectInitializer& ObjectInitializer);
 
 protected:
 	virtual void BeginPlay() override;
